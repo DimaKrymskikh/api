@@ -24,6 +24,7 @@ if (App::$request && App::$userId !== User::DEFAULT_USER_ID) {
     $router->post('account/getFilm/{filmId}', AccountController::class, 'getFilm');
     $router->post('userFilm/{filmId}', UserFilmController::class, 'addFilm');
     $router->delete('userFilm/{filmId}', UserFilmController::class, 'deleteFilm');
+    $router->delete('account', AccountController::class, 'removeAccount');
 }
 
 $router->post('film/{activePage}/{itemsNumberOnPage}', FilmController::class);

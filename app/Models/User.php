@@ -104,6 +104,27 @@ class User
         return password_verify(App::$request->password, $this->password);
     }
     
+    public function removeAccount(): object
+    {
+        $errors = [];
+        $app = (object)[];
+        
+        if ($this->confirmPassword()) {
+            $this->delete();
+            $app = (object) [
+                'token' => $this->generateToken(App::$request->aud, self::DEFAULT_USER_ID, self::TOKEN_EXP),
+                'isGuest' => true,
+            ];
+        } else {
+            $errors[] = 'Попробуйте ввести пароль ещё раз';
+        }
+        
+        return (object)[
+            'errors' => $errors,
+            'app' => $app,
+        ];
+    }
+    
     private static function insert(string $login, string $password): int 
     {
         return App::$db->selectValue(<<<SQL
@@ -113,6 +134,15 @@ class User
                     'login' => $login,
                     'password' => password_hash($password, PASSWORD_DEFAULT)
                 ]);
+    }
+    
+    private function delete(): void
+    {
+        App::$db->execute(<<<SQL
+                DELETE FROM person.users WHERE id = :id
+            SQL, [
+                'id' => App::$userId
+            ]);
     }
 
     /**

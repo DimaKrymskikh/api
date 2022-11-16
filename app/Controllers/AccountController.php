@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Base\Pagination;
 use App\Models\Film;
+use App\Models\User;
 
 class AccountController 
 {
@@ -35,5 +36,10 @@ class AccountController
     public function getFilm(int $filmId): string
     {
         return json_encode((new Film)->getFilm($filmId));
+    }
+    
+    public function removeAccount()
+    {
+        return json_encode((new User)->removeAccount());
     }
 }
