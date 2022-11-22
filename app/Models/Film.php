@@ -7,9 +7,31 @@ use App\App;
 
 class Film 
 {
+    /**
+     * Возвращает список фильмов
+     * @param int $activePage - Номер активной страницы 
+     * @param int $filmsNumberOnPage - Число элементов на странице
+     * @param bool $isPersonal - true, если список фильмов для аккаунта
+     * @return object
+     */
     public function getList(int $activePage, int $filmsNumberOnPage, bool $isPersonal = false): object
     {
-        $condition = $isPersonal ? 'WHERE uf.user_id = :userId' : '';
+        // Массив для сбора условий
+        $arrWhere = [];
+        // Если запрос для аккаунта пользователя
+        if($isPersonal) {
+            $arrWhere[] = 'uf.user_id = :userId';
+        }
+        // Если в запросе присутствует фильтр по названию фильма
+        if ($title = trim(App::$request->sortFilmTitle)) {
+            $arrWhere[] = "f.title ILIKE '%{$title}%'";
+        }
+        // Если в запросе присутствует фильтр по описанию фильма
+        if ($description = trim(App::$request->sortFilmDescription)) {
+            $arrWhere[] = "f.description ILIKE '%{$description}%'";
+        }
+        // Формируем условие запроса
+        $condition = count($arrWhere) ? "WHERE " . implode(' AND ', $arrWhere) : '';
         
         $films = App::$db->selectObjects(<<<SQL
                 WITH _ AS (
