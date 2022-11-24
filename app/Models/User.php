@@ -88,12 +88,19 @@ class User
         ];
     }
     
+    /**
+     * Разлогирование пользователя
+     * @return object
+     */
     public function processLogout(): object
     {
         return (object)[
             'app' => (object)[
                 'token' => $this->generateToken(App::$request->aud, self::DEFAULT_USER_ID, self::TOKEN_EXP),
                 'isGuest' => true,
+            ],
+            'user' => (object)[
+                'login' => ''
             ]
         ];
     }
@@ -104,16 +111,26 @@ class User
         return password_verify(App::$request->password, $this->password);
     }
     
+    /**
+     * Удаление аккаунта
+     * @return object
+     */
     public function removeAccount(): object
     {
         $errors = [];
         $app = (object)[];
+        $user = (object)[];
         
         if ($this->confirmPassword()) {
+            // Если пароль верный, то удаляем аккаунт
             $this->delete();
+            // Задаём данные для отправки клиенту, соответсвующие неаутифицированному пользователю
             $app = (object) [
                 'token' => $this->generateToken(App::$request->aud, self::DEFAULT_USER_ID, self::TOKEN_EXP),
                 'isGuest' => true,
+            ];
+            $user = (object) [
+                'login' => ''
             ];
         } else {
             $errors[] = 'Попробуйте ввести пароль ещё раз';
@@ -122,6 +139,7 @@ class User
         return (object)[
             'errors' => $errors,
             'app' => $app,
+            'user' => $user
         ];
     }
     
@@ -136,6 +154,10 @@ class User
                 ]);
     }
     
+    /**
+     * Запрос в базу на удаление аккаунта
+     * @return void
+     */
     private function delete(): void
     {
         App::$db->execute(<<<SQL
