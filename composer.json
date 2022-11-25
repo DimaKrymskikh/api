@@ -1,6 +1,12 @@
 {
     "name": "php/api",
     "type": "project",
+    "authors": [
+        {
+            "name": "Дима Крымских",
+            "email": "krymskikh@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/"

@@ -36,6 +36,9 @@ trait ProcessRequest
             'app' => (object)[
                 'token' => $this->generateToken(App::$request->aud, User::DEFAULT_USER_ID, User::TOKEN_EXP),
                 'isGuest' => true,
+            ],
+            'user' => (object)[
+                'login' => ''
             ]
         ];
         
