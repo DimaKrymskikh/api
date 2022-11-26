@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
-use App\App;
 use App\Models\User;
 
+/**
+ * Осуществляет процесс аутентификации пользователя
+ */
 class AuthenticatedUserController 
 {
     /**
@@ -23,11 +25,19 @@ class AuthenticatedUserController
         ]);
     }
     
+    /**
+     * Выполняет процесс входа пользователя в приложение
+     * @return string
+     */
     public function store(): string
     {
         return json_encode((new User)->processLogin());
     }
     
+    /**
+     * Выход пользователя из приложения
+     * @return string
+     */
     public function destroy(): string
     {
         return json_encode((new User)->processLogout());

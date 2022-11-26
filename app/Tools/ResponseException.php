@@ -2,6 +2,9 @@
 
 namespace App\Tools;
 
+/**
+ * Исключение, которое выбрасывается при ошибках запроса от клиентского приложения
+ */
 class ResponseException extends \Exception
 {
     private object $response;

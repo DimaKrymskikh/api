@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
-use Base\Jwt\JwtHelper;
 use App\App;
 
+/**
+ * Модель для взаимодействия с таблицей person.users
+ */
 class User 
 {
     use \App\Tools\ProcessRequest;
     
     const DEFAULT_USER_ID = 0;
+    const DEFAULT_USER_DATA = [
+                                'login' => ''
+                            ];
     const TOKEN_EXP = '+30 day';
 //    const TOKEN_EXP = '+1 minute';
     
@@ -99,12 +104,14 @@ class User
                 'token' => $this->generateToken(App::$request->aud, self::DEFAULT_USER_ID, self::TOKEN_EXP),
                 'isGuest' => true,
             ],
-            'user' => (object)[
-                'login' => ''
-            ]
+            'user' => (object)self::DEFAULT_USER_DATA
         ];
     }
     
+    /**
+     * Проверка введённого пароля
+     * @return bool
+     */
     public function confirmPassword(): bool
     {
         $this->setPassword(App::$userId);
@@ -129,9 +136,7 @@ class User
                 'token' => $this->generateToken(App::$request->aud, self::DEFAULT_USER_ID, self::TOKEN_EXP),
                 'isGuest' => true,
             ];
-            $user = (object) [
-                'login' => ''
-            ];
+            $user = (object)self::DEFAULT_USER_DATA;
         } else {
             $errors[] = 'Попробуйте ввести пароль ещё раз';
         }
@@ -143,6 +148,12 @@ class User
         ];
     }
     
+    /**
+     * Добавление записи в таблицу person.users
+     * @param string $login
+     * @param string $password
+     * @return int
+     */
     private static function insert(string $login, string $password): int 
     {
         return App::$db->selectValue(<<<SQL
@@ -194,6 +205,11 @@ class User
         $this->password = isset($row->password) ? $row->password : '';
     }
     
+    /**
+     * Получение паспорта из таблицы person.users по id пользователя
+     * @param int $userId
+     * @return void
+     */
     private function setPassword(int $userId): void
     {
         $this->password = App::$db->selectValue(<<<SQL

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\App;
 
+/**
+ * Взаимодействие с таблицей person.users_films
+ */
 class UserFilm 
 {
     
@@ -22,6 +25,12 @@ class UserFilm
                 'filmId' => $filmId,
             ]);
     }
+    
+    /**
+     * Удаление фильма с id = $filmId из списка пользователя
+     * @param int $filmId
+     * @return void
+     */
     public function deleteFilm(int $filmId): void
     {
         App::$db->execute(<<<SQL

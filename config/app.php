@@ -8,6 +8,7 @@ $dotenv->load();
 
 $db = require_once __DIR__ . '/db.php';
 
+// Параметры приложения
 return (object)[
     'db' => $db,
     'data' => (object)[

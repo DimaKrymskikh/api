@@ -9,6 +9,9 @@ use App\Tools\ResponseException;
 use App\Controllers\ErrorController;
 use App\Models\User;
 
+/**
+ * Основной класс приложения
+ */
 class App
 {
     use \App\Tools\ProcessRequest;
@@ -22,11 +25,17 @@ class App
     {
         // Создаём соединение с базой
         self::$db = new DBQuery($config->db);
+        // Сохраняем данные конфигурации
         self::$data = $config->data;
     }
     
+    /**
+     * Обрабатывает запрос клиентского приложения
+     * @return void
+     */
     public function run(): void
     {
+        // Можно раскомитить sleep(1), чтобы был лучше виден спиннер в клиенском приложении
 //        sleep(1);
         
         try {
@@ -37,11 +46,12 @@ class App
     }
 
     /**
-     * Задаёт маршрутизацию
+     * Задаёт маршрутизацию и проверяет токен
      * @return void
      */
     private function router(): void
     {
+        // Задаём заголовки
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Headers: *');
         header('Access-Control-Allow-Methods: *');
@@ -61,6 +71,7 @@ class App
         
         self::$request = json_decode(file_get_contents("php://input"));
         
+        // Проверка токена
         if (self::$request) {
             $resultToken = JwtHelper::getResultToken(self::$request->token);
             // Если получен невалидный токен, то отправляем ответ, который потребует перезагрузки клиентского приложения
@@ -73,13 +84,14 @@ class App
             }
         }
         
+        // Создаём роутер
         $router = new Router((object) [
             'controller' => ErrorController::class,
             'action' => 'index'
         ]);
-        
+        // Формируем массив маршрутов
         require_once __DIR__ . '/../routes/web.php';
-        
+        // Находим и выполняем экшен
         $router->run($requestMethod, $truncatedUri);
         
     }

@@ -5,6 +5,9 @@ namespace App\Models;
 use Base\Pagination;
 use App\App;
 
+/**
+ * Модель для взаимодействия с таблицей dvd.films
+ */
 class Film 
 {
     /**

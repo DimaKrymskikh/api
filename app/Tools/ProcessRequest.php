@@ -8,8 +8,19 @@ use App\App;
 use App\Tools\ResponseException;
 use App\Models\User;
 
+/**
+ * Обслуживание токена
+ */
 trait ProcessRequest 
 {
+    /**
+     * Генерирует токен
+     * @param string $aud - Код клиентского приложения
+     * @param int $uid - id пользователя или дефолтное значение
+     * @param string $exp - Время жизни токена
+     * @return string
+     * Возвращает токен в виде строки
+     */
     public function generateToken(string $aud, int $uid, string $exp): string
     {
         return (JwtHelper::generateToken(App::$data->secretKey, App::$data->domain, App::$data->aud[$aud], null, $uid, null, $exp))->toString();
@@ -37,9 +48,7 @@ trait ProcessRequest
                 'token' => $this->generateToken(App::$request->aud, User::DEFAULT_USER_ID, User::TOKEN_EXP),
                 'isGuest' => true,
             ],
-            'user' => (object)[
-                'login' => ''
-            ]
+            'user' => (object)User::DEFAULT_USER_DATA
         ];
         
         echo json_encode($requestObject);

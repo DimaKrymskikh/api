@@ -6,8 +6,19 @@ use Base\Pagination;
 use App\Models\Film;
 use App\Models\User;
 
+/**
+ * Взаимодействие со страницей аккаунта
+ */
 class AccountController 
 {
+    /**
+     * Осуществляет процесс смены списка фильмов:
+     * первая загрузка, изменение страницы, изменение числа фильмов на странице, фильтрация фильмов
+     * @param int $activePage - Страница для которой отдаются фильмы (активная страница) 
+     * @param int $itemsNumberOnPage - Число фильмов на странице
+     * @return string
+     * Возвращает список фильмов с параметрами пагинации
+     */
     public function index(int $activePage, int $itemsNumberOnPage): string
     {
         $filmsActivePage = $activePage ?: Pagination::DEFAULT_ACTIVE_PAGE;
@@ -22,7 +33,12 @@ class AccountController
         ]);
     }
     
-    public function filmCard($filmId): string
+    /**
+     * Возвращает данные фильма с id = $filmId
+     * @param int $filmId
+     * @return string
+     */
+    public function filmCard(int $filmId): string
     {
         return json_encode((object)[
             'film' => (new Film)->getFilmCard($filmId)
@@ -38,7 +54,11 @@ class AccountController
         return json_encode((new Film)->getFilm($filmId));
     }
     
-    public function removeAccount()
+    /**
+     * Удаляет аккаунт
+     * @return string
+     */
+    public function removeAccount(): string
     {
         return json_encode((new User)->removeAccount());
     }

@@ -3,10 +3,16 @@
 namespace App\Controllers;
 
 use App\Tools\ResponseException;
-use App\App;
 
+/**
+ * Дефолтный контроллер
+ */
 class ErrorController 
 {
+    /**
+     * Экшен, который выполняется, когда роутер по uri не находит нужный экшен
+     * @throws ResponseException
+     */
     public function index()
     {
         http_response_code(403);
