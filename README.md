@@ -10,3 +10,4 @@ git@github.com:DimaKrymskikh/api.git
 ```
 composer update
 ```
+Далее нужно создать файл `.env` и скопировать в него используемые переменные окружения из файла `.env.example`.
