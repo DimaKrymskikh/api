@@ -10,7 +10,7 @@ git@github.com:DimaKrymskikh/api.git
 ```
 composer update
 ```
-Далее нужно создать файл `.env` и скопировать в него используемые переменные окружения из файла `.env.example`.
+Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`. Затем, в файле `.env` необходимо определить переменные окружения. Их смысл таков:
 ```
 APP_DOMAIN - uri данного приложения
 APP_SECRET_KEY - секретный ключ приложения, для его генерации можно воспользоваться скриптом createSecretKey.php
@@ -38,3 +38,13 @@ FROM 'films_actors.csv';
 ```
 Эти данные позаимствованы из 
 [Load PostgreSQL Sample Database](https://www.postgresqltutorial.com/postgresql-getting-started/load-postgresql-sample-database/)
+
+## Настройка Apache
+```
+RewriteEngine on
+# Если запрашиваемая в URL директория или файл существуют обращаемся к ним напрямую
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Если нет - перенаправляем запрос на index.php
+RewriteRule . index.php
+```
