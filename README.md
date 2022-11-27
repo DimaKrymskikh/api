@@ -48,3 +48,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Если нет - перенаправляем запрос на index.php
 RewriteRule . index.php
 ```
+
+## Клиентские приложения
+Url [приложения на нативном js](https://github.com/DimaKrymskikh/html) нужно указать в файле `.env` в переменной `AUD_HTML`.
