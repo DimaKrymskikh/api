@@ -44,7 +44,7 @@ class User
                 'isGuest' => false
             ];
             $user = (object)[
-                'login' => App::$request->login
+                'login' => htmlspecialchars(App::$request->login)
             ];
         } else {
             $app = (object)[];
@@ -78,7 +78,7 @@ class User
                 'isGuest' => false
             ];
             $user = (object)[
-                'login' => App::$request->login
+                'login' => htmlspecialchars(App::$request->login)
             ];
         } else {
             // Иначе оставляем токен и статус пользователя без изменений
