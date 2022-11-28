@@ -14,7 +14,7 @@ composer install
 (Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md)).
 Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`. Затем, в файле `.env` необходимо определить переменные окружения. Их смысл таков:
 ```
-APP_DOMAIN - uri данного приложения
+APP_DOMAIN - домен данного приложения, например, api.foo
 APP_SECRET_KEY - секретный ключ приложения, для его генерации можно воспользоваться скриптом createSecretKey.php
 DB_* - настройки базы данных postgres
 AUD_* - клиентские приложения (в данный момент всего одно)
@@ -58,4 +58,4 @@ RewriteRule . index.php
 ```
 
 ## Клиентские приложения
-Url [приложения на нативном js](https://github.com/DimaKrymskikh/html) нужно указать в файле `.env` в переменной `AUD_HTML`.
+Домен, например, `foo.bar` [приложения на нативном js](https://github.com/DimaKrymskikh/html) нужно указать в файле `.env` в переменной `AUD_HTML`.
