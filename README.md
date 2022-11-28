@@ -24,7 +24,7 @@ AUD_* - клиентские приложения (в данный момент 
 [pgAdmin](https://www.pgadmin.org/) или
 [DBeaver](https://dbeaver.io/)
 ) 
-или `createdb -p *** -U *** check-api` в командной строке.
+или `createdb -p *** -U *** name` в командной строке.
 Далее, следует создать таблицы при помощи файла `create_tables.sql` из папки `SQL`.
 Для этого нужно в интерактивном терминале (см. [Postgres Pro](https://postgrespro.ru/docs/postgrespro/14/app-psql)) подключиться к созданной базе `name`
 ```
