@@ -36,17 +36,13 @@ psql \i 'create_tables.sql'
 ```
 и заполнить таблицы данными (файлы из папки `SQL`)
 ```
-COPY public.languages(id, name, updated_at)
-FROM 'languages.csv';
+psql \copy public.languages(id, name, updated_at) FROM 'languages.csv';
 
-COPY dvd.films(id, title, description, release_year, language_id, updated_at)
-FROM 'films.csv';
+psql \copy dvd.films(id, title, description, release_year, language_id, updated_at) FROM 'films.csv';
 
-COPY dvd.actors(id, first_name, last_name, updated_at)
-FROM 'actors.csv';
+psql \copy dvd.actors(id, first_name, last_name, updated_at) FROM 'actors.csv';
 
-COPY dvd.films_actors(actor_id, film_id, updated_at)
-FROM 'films_actors.csv';
+psql \copy dvd.films_actors(actor_id, film_id, updated_at) FROM 'films_actors.csv';
 ```
 Эти данные позаимствованы из 
 [Load PostgreSQL Sample Database](https://www.postgresqltutorial.com/postgresql-getting-started/load-postgresql-sample-database/)
