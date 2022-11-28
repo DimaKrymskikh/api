@@ -19,7 +19,12 @@ APP_SECRET_KEY - секретный ключ приложения, для его
 DB_* - настройки базы данных postgres
 AUD_* - клиентские приложения (в данный момент всего одно)
 ```
-Нужно создать базу данных с любым именем `CREATE DATABASE name;`.
+Нужно создать базу данных с любым именем `CREATE DATABASE name;` в редакторе клиентского программного приложения SQL 
+(
+[pgAdmin](https://www.pgadmin.org/) или
+[DBeaver](https://dbeaver.io/)
+) 
+или `createdb -p *** -U *** check-api` в командной строке.
 Далее, следует создать таблицы при помощи файла `create_tables.sql` из папки `SQL`,
 ```
 psql \i 'create_tables.sql'
