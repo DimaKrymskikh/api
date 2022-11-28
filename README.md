@@ -11,7 +11,7 @@ git clone git@github.com:DimaKrymskikh/api.git
 ```
 composer update
 ```
-(Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md))
+(Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md)).
 Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`. Затем, в файле `.env` необходимо определить переменные окружения. Их смысл таков:
 ```
 APP_DOMAIN - uri данного приложения
