@@ -38,20 +38,9 @@ trait ProcessRequest
     
     public function checkTokenDate(TokenInterface $resultToken): void
     {        
-        if ($resultToken->claims()->get('exp') > new \DateTimeImmutable()) {
-            return;
+        if ($resultToken->claims()->get('exp') < new \DateTimeImmutable()) {
+            http_response_code(401);
+            throw new ResponseException((object)['message' => 'Время токена истекло. Выполните вход заново.']);
         }
-
-        http_response_code(401);
-        $requestObject = (object)[
-            'app' => (object)[
-                'token' => $this->generateToken(App::$request->aud, User::DEFAULT_USER_ID, User::TOKEN_EXP),
-                'isGuest' => true,
-            ],
-            'user' => (object)User::DEFAULT_USER_DATA
-        ];
-        
-        echo json_encode($requestObject);
-        exit;
     }
 }

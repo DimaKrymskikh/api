@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Base\Pagination;
+use Base\Utils\ArrayUtils;
 use App\App;
 
 /**
@@ -69,14 +70,16 @@ class Film
             ]);
 
         $filmsList = (object) [];
-        $filmsList->films = $films;
+        // Убираем 'count' (общее число фильмов) из массива фильмов
+        $filmsList->films = array_values(ArrayUtils::flatToComplex($films, 'n', ['n', 'id', 'title', 'description', 'name', 'isAvailable']));
+        // 'count' сохраняем отдельно для передачи в пагинацию
         $filmsList->filmsNumberTotal = isset($films[0]) ? $films[0]->count : 0;
         
         return $filmsList;
     }
     
     /**
-     * Извлекает потробные данные о фильме
+     * Извлекает подробные данные о фильме
      * @param int $filmId - id фильма
      * @return object
      */
@@ -106,7 +109,7 @@ class Film
     }
     
     /**
-     * Извлекает данные фильма 
+     * Извлекает название фильма по id фильма
      * @param int $filmId - id фильма
      * @return object
      */
@@ -114,7 +117,6 @@ class Film
     {
         return App::$db->selectObject(<<<SQL
                 SELECT 
-                    id, 
                     title 
                 FROM dvd.films
                 WHERE id = ?

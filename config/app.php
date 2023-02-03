@@ -15,7 +15,8 @@ return (object)[
         'secretKey' => getenv('APP_SECRET_KEY'),
         'domain' => getenv('APP_DOMAIN'),
         'aud' => [
-            'html' => getenv('AUD_HTML')
+            'html' => getenv('AUD_HTML'),
+            'vue' => getenv('AUD_VUE')
         ]
     ]
 ];
