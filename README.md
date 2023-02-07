@@ -59,3 +59,4 @@ RewriteRule . index.php
 
 ## Клиентские приложения
 [Приложение на нативном js](https://github.com/DimaKrymskikh/html).
+[Приложение Vue](https://github.com/DimaKrymskikh/vue).
