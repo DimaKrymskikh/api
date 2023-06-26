@@ -7,10 +7,10 @@ use App\Models\User;
 /**
  * Регистрация пользователя
  */
-class RegisteredUserController 
+class RegisteredUserController
 {
     public function store(): string
     {
-        return json_encode((new User)->processRegistration());
+        return json_encode((new User())->processRegistration());
     }
 }

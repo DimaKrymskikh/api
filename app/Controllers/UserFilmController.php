@@ -17,11 +17,11 @@ class UserFilmController
      */
     public function addFilm(int $filmId): string
     {
-        (new UserFilm)->addFilm($filmId);
-        
+        (new UserFilm())->addFilm($filmId);
+
         return json_encode(true);
     }
-    
+
     /**
      * Удаление фильма с id = $filmId из списка пользователя
      * @param int $filmId
@@ -31,12 +31,12 @@ class UserFilmController
     {
         $errors = [];
         // Проверка введённого пароля
-        if ((new User)->confirmPassword()) {
-            (new UserFilm)->deleteFilm($filmId);
+        if ((new User())->confirmPassword()) {
+            (new UserFilm())->deleteFilm($filmId);
         } else {
             $errors[] = 'Попробуйте ввести пароль ещё раз';
         }
-        
+
         return json_encode((object)[
             'errors' => $errors
         ]);

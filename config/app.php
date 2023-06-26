@@ -11,7 +11,7 @@ $db = require_once __DIR__ . '/db.php';
 // Параметры приложения
 return (object)[
     'app_url' => dirname(__DIR__) . '/app',
-    
+
     'db' => $db,
     'data' => (object)[
         'secretKey' => getenv('APP_SECRET_KEY'),

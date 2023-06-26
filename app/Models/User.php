@@ -7,17 +7,17 @@ use App\App;
 /**
  * Модель для взаимодействия с таблицей person.users
  */
-class User 
+class User
 {
     use \App\Tools\ProcessRequest;
-    
-    const DEFAULT_USER_ID = 0;
-    const DEFAULT_USER_DATA = [
+
+    public const DEFAULT_USER_ID = 0;
+    public const DEFAULT_USER_DATA = [
                                 'login' => ''
                             ];
-    const TOKEN_EXP = '+30 day';
-//    const TOKEN_EXP = '+1 minute';
-    
+    public const TOKEN_EXP = '+30 day';
+    //    const TOKEN_EXP = '+1 minute';
+
     private string $password;
 
     /**
@@ -28,15 +28,15 @@ class User
     public function processRegistration(): object
     {
         $errors = [];
-        
+
         if ($this->isLogin(App::$request->login)) {
             $errors[] = "Данный логин уже существует. Для регистрации нужно задать другой логин";
         }
-        
+
         if(App::$request->password !== App::$request->verification) {
             $errors[] = "Введённый пароль не совпадает с подверждённым";
         }
-        
+
         if (count($errors) === 0) {
             App::$userId = $this->insert(App::$request->login, App::$request->password);
             $app = (object)[
@@ -50,14 +50,14 @@ class User
             $app = (object)[];
             $user = (object)[];
         }
-        
+
         return (object)[
             'app' => $app,
             'user' => $user,
             'errors' => $errors
         ];
     }
-    
+
     public function processLogin(): object
     {
         $errors = [];
@@ -69,7 +69,7 @@ class User
         if (!password_verify(App::$request->password, $this->password)) {
             $errors[] = "Неправильный логин или пароль";
         }
-        
+
         if (count($errors) === 0) {
             // Если пароль введён верно, то создаём токен с id данного пользователя
             // Пользователь становиться аутентифицированным
@@ -85,14 +85,14 @@ class User
             $app = (object)[];
             $user = (object)[];
         }
-        
+
         return (object)[
             'app' => $app,
             'user' => $user,
             'errors' => $errors
         ];
     }
-    
+
     /**
      * Разлогирование пользователя
      * @return object
@@ -107,7 +107,7 @@ class User
             'user' => (object)self::DEFAULT_USER_DATA
         ];
     }
-    
+
     /**
      * Проверка введённого пароля
      * @return bool
@@ -117,7 +117,7 @@ class User
         $this->setPassword(App::$userId);
         return password_verify(App::$request->password, $this->password);
     }
-    
+
     /**
      * Удаление аккаунта
      * @return object
@@ -127,7 +127,7 @@ class User
         $errors = [];
         $app = (object)[];
         $user = (object)[];
-        
+
         if ($this->confirmPassword()) {
             // Если пароль верный, то удаляем аккаунт
             $this->delete();
@@ -140,21 +140,21 @@ class User
         } else {
             $errors[] = 'Попробуйте ввести пароль ещё раз';
         }
-        
+
         return (object)[
             'errors' => $errors,
             'app' => $app,
             'user' => $user
         ];
     }
-    
+
     /**
      * Добавление записи в таблицу person.users
      * @param string $login
      * @param string $password
      * @return int
      */
-    private static function insert(string $login, string $password): int 
+    private static function insert(string $login, string $password): int
     {
         return App::$db->selectValue(<<<SQL
                     INSERT INTO person.users (login, password) VALUES (:login, :password)
@@ -164,7 +164,7 @@ class User
                     'password' => password_hash($password, PASSWORD_DEFAULT)
                 ]);
     }
-    
+
     /**
      * Запрос в базу на удаление аккаунта
      * @return void
@@ -189,13 +189,13 @@ class User
                 SELECT EXISTS(SELECT FROM person.users WHERE login = :login)
             SQL, ['login' => $login]);
     }
-    
+
     /**
      * По логину извлекает из базы и задаёт id, login, password пользователя
-     * @param string $userLogin 
+     * @param string $userLogin
      * @return void
      */
-    private function getRecord(string $userLogin): void 
+    private function getRecord(string $userLogin): void
     {
         $row = App::$db->selectObject(<<<SQL
                 SELECT id, login, password FROM person.users WHERE login = :userLogin
@@ -204,7 +204,7 @@ class User
         App::$userId = isset($row->id) ? $row->id : self::DEFAULT_USER_ID;
         $this->password = isset($row->password) ? $row->password : '';
     }
-    
+
     /**
      * Получение паспорта из таблицы person.users по id пользователя
      * @param int $userId

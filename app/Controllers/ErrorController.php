@@ -7,7 +7,7 @@ use App\Tools\ResponseException;
 /**
  * Дефолтный контроллер
  */
-class ErrorController 
+class ErrorController
 {
     /**
      * Экшен, который выполняется, когда роутер по uri не находит нужный экшен

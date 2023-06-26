@@ -18,8 +18,12 @@
         "url": "https://github.com/DimaKrymskikh/base"
         }
     ],
+    "scripts": {
+        "fix": "php-cs-fixer fix ."
+    },
     "require": {
         "php/base": "dev-main",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "friendsofphp/php-cs-fixer": "^3.19"
     }
 }

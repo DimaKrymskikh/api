@@ -9,11 +9,11 @@ use App\App;
 /**
  * Модель для взаимодействия с таблицей dvd.films
  */
-class Film 
+class Film
 {
     /**
      * Возвращает список фильмов
-     * @param int $activePage - Номер активной страницы 
+     * @param int $activePage - Номер активной страницы
      * @param int $filmsNumberOnPage - Число элементов на странице
      * @param bool $isPersonal - true, если список фильмов для аккаунта
      * @return object
@@ -36,7 +36,7 @@ class Film
         }
         // Формируем условие запроса
         $condition = count($arrWhere) ? "WHERE " . implode(' AND ', $arrWhere) : '';
-        
+
         $films = App::$db->selectObjects(<<<SQL
                 WITH _ AS (
                     SELECT
@@ -74,10 +74,10 @@ class Film
         $filmsList->films = array_values(ArrayUtils::flatToComplex($films, 'n', ['n', 'id', 'title', 'description', 'name', 'isAvailable']));
         // 'count' сохраняем отдельно для передачи в пагинацию
         $filmsList->filmsNumberTotal = isset($films[0]) ? $films[0]->count : 0;
-        
+
         return $filmsList;
     }
-    
+
     /**
      * Извлекает подробные данные о фильме
      * @param int $filmId - id фильма
@@ -102,12 +102,12 @@ class Film
                 SQL, [
                     'filmId' => $filmId,
                 ]);
-        
+
         $film->actorNames = explode(',', $film->actorNames);
-        
+
         return $film;
     }
-    
+
     /**
      * Извлекает название фильма по id фильма
      * @param int $filmId - id фильма

@@ -8,12 +8,12 @@ use App\Models\Film;
 /**
  * Взаимодействие со страницей "Каталог"
  */
-class FilmController 
+class FilmController
 {
     /**
      * Изменяет список фильмов:
-     * первая загрузка, изменение страницы, изменение числа фильмов на странице, фильтрация фильмов 
-     * @param int $page - Страница для которой отдаются фильмы (активная страница) 
+     * первая загрузка, изменение страницы, изменение числа фильмов на странице, фильтрация фильмов
+     * @param int $page - Страница для которой отдаются фильмы (активная страница)
      * @param int $quantity - Число фильмов на странице
      * @return string
      */
@@ -22,8 +22,8 @@ class FilmController
         $activePage = $page ?: Pagination::DEFAULT_ACTIVE_PAGE;
         $filmsNumberOnPage = $quantity ?: Pagination::DEFAULT_ITEMS_NUMBER_ON_PAGE;
         // Получаем список существующих фильмов для активной страницы
-        $filmsList = (new Film)->getList($activePage, $filmsNumberOnPage);
-        
+        $filmsList = (new Film())->getList($activePage, $filmsNumberOnPage);
+
         return json_encode((object)[
             'films' => $filmsList->films,
             'pagination' => (new Pagination($activePage, $filmsNumberOnPage, $filmsList->filmsNumberTotal))->get(),
